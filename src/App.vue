@@ -1,14 +1,17 @@
 <template>
   <div class="shopping-cart">
-        <h1>Harry's Shopping Cart</h1>
+        <h1>{{ username }}'s Shopping Cart</h1>
         <div class="cart-container">
             <div class="cart-list">
                 <div class="cart-list-item">
-                    <img src="@/assets/DragonLiver.png" alt="Dragon Liver" class="product-image">
+                    <img src="@/assets/DragonLiver.png" 
+                    alt="Dragon Liver" 
+                    class="product-image"
+                    />
                     <div class="item-details-with-actions">
                         <div class="item-details">
-                            <h2>Dragon Liver</h2>
-                            <p class="price">$1500</p>
+                            <h2>{{ shoppingCartItems[0].productName }}</h2>
+                            <p class="price">${{ shoppingCartItems[0].price }}</p>
                             <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
                         </div>
                         <div class="item-actions">
@@ -25,8 +28,8 @@
                     <img src="@/assets/GoldenSnitch.png" alt="Golden Snitch" class="product-image">
                     <div class="item-details-with-actions">
                         <div class="item-details">
-                            <h2>Golden Snitch</h2>
-                            <p class="price">$600</p>
+                            <h2>{{ shoppingCartItems[1].productName }}</h2>
+                            <p class="price">${{ shoppingCartItems[1].price }}</p>
                             <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
                         </div>
                         <div class="item-actions">
@@ -43,8 +46,8 @@
                     <img src="@/assets/UnicornTailHair.png" alt="Unicorn Tail Hair" class="product-image">
                     <div class="item-details-with-actions">
                         <div class="item-details">
-                            <h2>Unicorn Tail Hair</h2>
-                            <p class="price">$1200</p>
+                            <h2>{{ shoppingCartItems[2].productName }}</h2>
+                            <p class="price">${{ shoppingCartItems[2].price }}</p>
                             <p class="on-backorder-status"> <i class="fa-solid fa-hourglass-half"></i> On backorder</p>
                         </div>
                         <div class="item-actions">
@@ -61,8 +64,8 @@
                     <img src="@/assets/Wand.jpg" alt="Wand" class="product-image">
                     <div class="item-details-with-actions">
                         <div class="item-details">
-                            <h2>Wand</h2>
-                            <p class="price">$2000</p>
+                            <h2>{{ shoppingCartItems[3].productName }}</h2>
+                            <p class="price">${{ shoppingCartItems[3].price }}</p>
                             <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
                         </div>
                         <div class="item-actions">
@@ -79,8 +82,8 @@
                     <img src="@/assets/Nimbus2000.jpg" alt="Nimbus 2000" class="product-image">
                     <div class="item-details-with-actions">
                         <div class="item-details">
-                            <h2>Nimbus 2000</h2>
-                            <p class="price">$5000</p>
+                            <h2>{{ shoppingCartItems[4].productName }}</h2>
+                            <p class="price">${{ shoppingCartItems[4].price }}</p>
                             <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
                         </div>
                         <div class="item-actions">
@@ -122,7 +125,49 @@
 </template>
 
 <script setup>
-
+let username = 'Harry'
+let shoppingCartItems = [
+  {
+    id: 1,
+    productName: 'Dragon Liver',
+    price: 1500,
+    quantity: 3,
+    inStock: true,
+    imageUrl: '@/assets/DragonLiver.png'
+  },
+  {
+    id: 2,
+    productName: 'Golden Snitch',
+    price: 600,
+    quantity: 2,
+    inStock: true,
+    imageUrl: '@/assets/GoldenSnitch.png'
+  },
+  {
+    id: 3,
+    productName: 'Unicorn Tail Hair',
+    price: 1200,
+    quantity: 1,
+    inStock: false, // on backorder
+    imageUrl: '@/assets/UnicornTailHair.png'
+  },
+  {
+    id: 4,
+    productName: 'Wand',
+    price: 2000,
+    quantity: 1,
+    inStock: true,
+    imageUrl: '@/assets/Wand.jpg'
+  },
+  {
+    id: 5,
+    productName: 'Nimbus 2000',
+    price: 5000,
+    quantity: 1,
+    inStock: true,
+    imageUrl: '@/assets/Nimbus2000.jpg'
+  }
+]
 </script>
 
 <style scoped>
