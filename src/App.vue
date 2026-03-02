@@ -3,100 +3,35 @@
         <h1>{{ username }}'s Shopping Cart</h1>
         <div class="cart-container">
             <div class="cart-list">
-                <div class="cart-list-item">
+                <div class="cart-list-item" v-for="item in shoppingCartItems" 
+                :key="item.id"
+                >
                     <img 
-                    :src="shoppingCartItems[0].imageUrl" 
-                    :alt="shoppingCartItems[0].productName" 
+                    :src="item.imageUrl" 
+                    :alt="item.productName" 
                     class="product-image"
                     />
                     <div class="item-details-with-actions">
                         <div class="item-details">
-                            <h2>{{ shoppingCartItems[0].productName }}</h2>
-                            <p class="price">${{ shoppingCartItems[0].price }}</p>
-                            <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
+                            <h2>{{ item.productName }}</h2>
+                            <p class="price">${{ item.price }}</p>
+                            <p class="in-stock-status" v-if="item.isInStock"> <i class="fa-solid fa-check"></i> In stock</p>
+                            <p class="on-backorder-status" v-else> <i class="fa-solid fa-hourglass-half"></i> On backorder</p>
                         </div>
                         <div class="item-actions">
                             <div class="quantity-selector">
-                                <button class="quantity-change-button">−</button>
+                                <button class="quantity-change-button" @click="decreaseOne(item.id)"
+                                >
+                                −</button>
                                 <input 
                                 type="text" 
                                 class="quantity-input" 
-                                :value="shoppingCartItems[0].quantity" aria-label="quantity">
-                                <button class="quantity-change-button">+</button>
+                                v-model.number="item.quantity"
+                                aria-label="quantity"
+                                />
+                                <button class="quantity-change-button" @click="increaseOne(item.id)">+</button>
                             </div>
-                            <button class="remove-item">✕</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="cart-list-item">
-                    <img src="@/assets/GoldenSnitch.png" alt="Golden Snitch" class="product-image">
-                    <div class="item-details-with-actions">
-                        <div class="item-details">
-                            <h2>{{ shoppingCartItems[1].productName }}</h2>
-                            <p class="price">${{ shoppingCartItems[1].price }}</p>
-                            <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
-                        </div>
-                        <div class="item-actions">
-                            <div class="quantity-selector">
-                                <button class="quantity-change-button">−</button>
-                                <input type="text" class="quantity-input" :value="shoppingCartItems[1].quantity" aria-label="quantity">
-                                <button class="quantity-change-button">+</button>
-                            </div>
-                            <button class="remove-item">✕</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="cart-list-item">
-                    <img src="@/assets/UnicornTailHair.png" alt="Unicorn Tail Hair" class="product-image">
-                    <div class="item-details-with-actions">
-                        <div class="item-details">
-                            <h2>{{ shoppingCartItems[2].productName }}</h2>
-                            <p class="price">${{ shoppingCartItems[2].price }}</p>
-                            <p class="on-backorder-status"> <i class="fa-solid fa-hourglass-half"></i> On backorder</p>
-                        </div>
-                        <div class="item-actions">
-                            <div class="quantity-selector">
-                                <button class="quantity-change-button">−</button>
-                                <input type="text" class="quantity-input" :value="shoppingCartItems[2].quantity" aria-label="quantity">
-                                <button class="quantity-change-button">+</button>
-                            </div>
-                            <button class="remove-item">✕</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="cart-list-item">
-                    <img src="@/assets/Wand.jpg" alt="Wand" class="product-image">
-                    <div class="item-details-with-actions">
-                        <div class="item-details">
-                            <h2>{{ shoppingCartItems[3].productName }}</h2>
-                            <p class="price">${{ shoppingCartItems[3].price }}</p>
-                            <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
-                        </div>
-                        <div class="item-actions">
-                            <div class="quantity-selector">
-                                <button class="quantity-change-button">−</button>
-                                <input type="text" class="quantity-input" :value="shoppingCartItems[3].quantity" aria-label="quantity">
-                                <button class="quantity-change-button">+</button>
-                            </div>
-                            <button class="remove-item">✕</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="cart-list-item">
-                    <img src="@/assets/Nimbus2000.jpg" alt="Nimbus 2000" class="product-image">
-                    <div class="item-details-with-actions">
-                        <div class="item-details">
-                            <h2>{{ shoppingCartItems[4].productName }}</h2>
-                            <p class="price">${{ shoppingCartItems[4].price }}</p>
-                            <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
-                        </div>
-                        <div class="item-actions">
-                            <div class="quantity-selector">
-                                <button class="quantity-change-button">−</button>
-                                <input type="text" class="quantity-input" :value="shoppingCartItems[4].quantity" aria-label="quantity">
-                                <button class="quantity-change-button">+</button>
-                            </div>
-                            <button class="remove-item">✕</button>
+                            <button class="remove-item" @click="removeItem(item.id)">✕</button>
                         </div>
                     </div>
                 </div>
@@ -134,13 +69,13 @@
 import { ref } from 'vue'
 
 let username = 'Harry'
-let shoppingCartItems = [
+let shoppingCartItems = ref([
   {
     id: 1,
     productName: 'Dragon Liver',
     price: 1500,
     quantity: 3,
-    inStock: true,
+    isInStock: true,
     imageUrl: 'src/assets/DragonLiver.png'
   },
   {
@@ -148,7 +83,7 @@ let shoppingCartItems = [
     productName: 'Golden Snitch',
     price: 600,
     quantity: 2,
-    inStock: true,
+    isInStock: true,
     imageUrl: 'src/assets/GoldenSnitch.png'
   },
   {
@@ -156,7 +91,7 @@ let shoppingCartItems = [
     productName: 'Unicorn Tail Hair',
     price: 1200,
     quantity: 1,
-    inStock: false, // on backorder
+    isInStock: false, // on backorder
     imageUrl: 'src/assets/UnicornTailHair.png'
   },
   {
@@ -164,7 +99,7 @@ let shoppingCartItems = [
     productName: 'Wand',
     price: 2000,
     quantity: 1,
-    inStock: true,
+    isInStock: true,
     imageUrl: 'src/assets/Wand.jpg'
   },
   {
@@ -172,12 +107,38 @@ let shoppingCartItems = [
     productName: 'Nimbus 2000',
     price: 5000,
     quantity: 1,
-    inStock: true,
+    isInStock: true,
     imageUrl: 'src/assets/Nimbus2000.jpg'
   }
-]
+])
 
 let hideDetails = ref(false)
+
+function decreaseOne(id) {
+    shoppingCartItems.value.some(item => {
+        if(item.id === id && item.quantity != 0){
+            item.quantity = item.quantity - 1
+        }
+    })
+}
+
+function increaseOne(id) {
+    shoppingCartItems.value.some(item => {
+        if(item.id === id){
+            item.quantity = item.quantity + 1
+        }
+    })
+}
+
+function removeItem(id) {
+    //step 1: find the index of the item that needs to be deleted
+    let index = shoppingCartItems.value.findIndex(item =>{
+        return item.id == id}
+    )
+    //step 2: delete this item from the list
+    shoppingCartItems.value.splice(index, 1)
+}
+
 </script>
 
 <style scoped>
