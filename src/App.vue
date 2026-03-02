@@ -4,8 +4,9 @@
         <div class="cart-container">
             <div class="cart-list">
                 <div class="cart-list-item">
-                    <img src="@/assets/DragonLiver.png" 
-                    alt="Dragon Liver" 
+                    <img 
+                    :src="shoppingCartItems[0].imageUrl" 
+                    :alt="shoppingCartItems[0].productName" 
                     class="product-image"
                     />
                     <div class="item-details-with-actions">
@@ -17,7 +18,10 @@
                         <div class="item-actions">
                             <div class="quantity-selector">
                                 <button class="quantity-change-button">−</button>
-                                <input type="text" class="quantity-input" value="3" aria-label="quantity">
+                                <input 
+                                type="text" 
+                                class="quantity-input" 
+                                :value="shoppingCartItems[0].quantity" aria-label="quantity">
                                 <button class="quantity-change-button">+</button>
                             </div>
                             <button class="remove-item">✕</button>
@@ -35,7 +39,7 @@
                         <div class="item-actions">
                             <div class="quantity-selector">
                                 <button class="quantity-change-button">−</button>
-                                <input type="text" class="quantity-input" value="2" aria-label="quantity">
+                                <input type="text" class="quantity-input" :value="shoppingCartItems[1].quantity" aria-label="quantity">
                                 <button class="quantity-change-button">+</button>
                             </div>
                             <button class="remove-item">✕</button>
@@ -53,7 +57,7 @@
                         <div class="item-actions">
                             <div class="quantity-selector">
                                 <button class="quantity-change-button">−</button>
-                                <input type="text" class="quantity-input" value="1" aria-label="quantity">
+                                <input type="text" class="quantity-input" :value="shoppingCartItems[2].quantity" aria-label="quantity">
                                 <button class="quantity-change-button">+</button>
                             </div>
                             <button class="remove-item">✕</button>
@@ -71,7 +75,7 @@
                         <div class="item-actions">
                             <div class="quantity-selector">
                                 <button class="quantity-change-button">−</button>
-                                <input type="text" class="quantity-input" value="1" aria-label="quantity">
+                                <input type="text" class="quantity-input" :value="shoppingCartItems[3].quantity" aria-label="quantity">
                                 <button class="quantity-change-button">+</button>
                             </div>
                             <button class="remove-item">✕</button>
@@ -89,7 +93,7 @@
                         <div class="item-actions">
                             <div class="quantity-selector">
                                 <button class="quantity-change-button">−</button>
-                                <input type="text" class="quantity-input" value="1" aria-label="quantity">
+                                <input type="text" class="quantity-input" :value="shoppingCartItems[4].quantity" aria-label="quantity">
                                 <button class="quantity-change-button">+</button>
                             </div>
                             <button class="remove-item">✕</button>
@@ -99,8 +103,10 @@
             </div>
             <div class="order-summary">
                 <h2>Order summary</h2>
-                <button class="toggle-details-button">Hide Details</button>
-                <div class="">
+                <button class="toggle-details-button" @click="hideDetails = !hideDetails">
+                    {{ hideDetails ? 'Show Details' : 'Hide Details' }}
+                </button>
+                <div :class="{ 'hide-order-details': hideDetails }">
                     <div class="summary-item">
                         <span>Subtotal</span>
                         <span>$13900</span>
@@ -125,6 +131,8 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
 let username = 'Harry'
 let shoppingCartItems = [
   {
@@ -133,7 +141,7 @@ let shoppingCartItems = [
     price: 1500,
     quantity: 3,
     inStock: true,
-    imageUrl: '@/assets/DragonLiver.png'
+    imageUrl: 'src/assets/DragonLiver.png'
   },
   {
     id: 2,
@@ -141,7 +149,7 @@ let shoppingCartItems = [
     price: 600,
     quantity: 2,
     inStock: true,
-    imageUrl: '@/assets/GoldenSnitch.png'
+    imageUrl: 'src/assets/GoldenSnitch.png'
   },
   {
     id: 3,
@@ -149,7 +157,7 @@ let shoppingCartItems = [
     price: 1200,
     quantity: 1,
     inStock: false, // on backorder
-    imageUrl: '@/assets/UnicornTailHair.png'
+    imageUrl: 'src/assets/UnicornTailHair.png'
   },
   {
     id: 4,
@@ -157,7 +165,7 @@ let shoppingCartItems = [
     price: 2000,
     quantity: 1,
     inStock: true,
-    imageUrl: '@/assets/Wand.jpg'
+    imageUrl: 'src/assets/Wand.jpg'
   },
   {
     id: 5,
@@ -165,9 +173,11 @@ let shoppingCartItems = [
     price: 5000,
     quantity: 1,
     inStock: true,
-    imageUrl: '@/assets/Nimbus2000.jpg'
+    imageUrl: 'src/assets/Nimbus2000.jpg'
   }
 ]
+
+let hideDetails = ref(false)
 </script>
 
 <style scoped>
