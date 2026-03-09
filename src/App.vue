@@ -1,55 +1,44 @@
 <template>
-  <h1>{{  message }}</h1>
-  <img v-bind:src="imageUrl" alt="" />
-  <br>
-  <img :src="imageUrl" alt="" />
-
-  <button @click="changeImage">Change Image</button>
-  <hr />
-  <input type="text" :value="defaultInputText" />
-  <p :class="className">Harry Potter</p>
-
-  <p :class="{ inactive: isInactive, center: isCenter }">
-    Harry Potter
-    </p>
-
-    <p :class="['active', 'center']">Harry Potter</p>
+  <h1>{{ message }}</h1>
+  <button @click="sortUsersByAge">Sort users by age</button>
+  <button @click="hideInactiveUsers">Hide inactive users</button>
+  <button @click="showFirstTwoUsers">Show first two users</button>
+  <ul>
+    <li v-for="(user, index) in users" :key="user.id">
+      {{ index }} - {{ user.id }} - {{ user.name }} - {{ user.age }} -
+      {{ user.isActive }}
+    </li>
+  </ul>
 </template>
 
 <script setup>
-import {ref} from 'vue'
-let message = 'Hello, v-bind'
+import { ref } from 'vue'
 
-let imageUrl = ref('/public/img/banner_1.jpg')
+let message = ref('Hello, Array Change Detection!')
 
-function changeImage() {
-  imageUrl.value = '/public/img/banner_2.jpg'
+const users = ref([
+  { id: 1001, name: 'John Smith', age: 26, isActive: false },
+  { id: 1002, name: 'Tom Doe', age: 16, isActive: false },
+  { id: 1003, name: 'Frankin Wong', age: 18, isActive: true }
+])
+
+function sortUsersByAge() {
+  users.value.sort((a, b) => a.age - b.age)
 }
 
-let defaultInputText = 'Write something here...'
+// filter is a non-mutating method, so we need o replace the old array
+function hideInactiveUsers() {
+  users.value = users.value.filter((user) => user.isActive)
+}
 
-let className= 'active'
-
-let isInactive = ref(false)
-let isCenter = ref(false)
+function showFirstTwoUsers() {
+  users.value = users.value.slice(0, 2)
+}
 </script>
 
 <style scoped>
-img {
-  max-width: 300px;
-}
-
-.active {
-  color: green;
-}
-
 .inactive {
   color: red;
   text-decoration: line-through;
 }
-
-.center {
-  text-align: center;
-}
 </style>
-
